@@ -77,3 +77,12 @@ def before_request():
     if g.user.is_authenticated:
     	db.session.add(g.user)
     	db.session.commit()
+
+@app.route('/profile')
+def profile():
+	user =  {
+	'name': 'David', 
+    'rating': '2/10',
+    'listing': 'selling block in UC' 
+ 	}
+	return render_template('profile.html', user = user)
