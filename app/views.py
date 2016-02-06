@@ -51,7 +51,7 @@ def try_register(name,pw,email):
 	if not user is None:
 		flash('Email in Use')
 		return redirect(url_for('register'))
-	nickname = name
+	nickname = name.strip()
 	nickname = User.make_unique_nickname(nickname)
 	password = pw
 	user = User(nickname = nickname, password = password, email = email, rating = 0.0)
