@@ -51,7 +51,7 @@ def try_register(name,pw,email):
 	if not user is None:
 		flash('Email in Use')
 		return redirect(url_for('register'))
-	nickname = namex
+	nickname = name
 	nickname = User.make_unique_nickname(nickname)
 	password = pw
 	user = User(nickname = nickname, password = password, email = email)
@@ -100,7 +100,12 @@ def rate(rateduser):
 	user = User.query.filter_by(nickname=rateduser).first()
 	form = RatingForm()
 	if(form.validate_on_submit()):
-		user.rating = form.rating.data
+		if user.rating == None:
+			user.rating = form.rating.data
+			user.numberOfRatings = 1
+		else:
+			user.rating = float(user.rating * user.numberOfRatings + float(form.rating.data)) / (user.numberOfRatings + 1)
+			user.numberOfRatings += 1
 		db.session.add(g.user)
 		db.session.commit()
 		return redirect(url_for('index'))
@@ -110,24 +115,24 @@ def rate(rateduser):
 def listings():
 	lists = [
 		{
-			'user' : {'nickname : George'}
-			'description' : '1 block'
-			'location' : 'UC'
-			'timeAvail' : '1-3'
+			'user' : {'nickname : George'},
+			'description' : '1 block',
+			'location' : 'UC',
+			'timeAvail' : '1-3',
 
-		}
+		},
 		{
-			'user' : {'nickname : Bob'}
-			'description' : '1 block'
-			'location' : 'Resnik'
-			'timeAvail' : '2-4'
+			'user' : {'nickname : Bob'},
+			'description' : '1 block',
+			'location' : 'Resnik',
+			'timeAvail' : '2-4',
 
-		}
+		},
 		{
-			'user' : {'nickname : David'}
-			'description' : '1 block'
-			'location' : 'Exchange'
-			'timeAvail' : '3-6'
+			'user' : {'nickname : David'},
+			'description' : '1 block',
+			'location' : 'Exchange',
+			'timeAvail' : '3-6',
 		}
 	]
 	return render_template("listings.html",title ='Listings',lists=lists)
