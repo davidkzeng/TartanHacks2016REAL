@@ -51,7 +51,7 @@ def try_register(name,pw,email):
 	if not user is None:
 		flash('Email in Use')
 		return redirect(url_for('register'))
-	nickname = namex
+	nickname = name
 	nickname = User.make_unique_nickname(nickname)
 	password = pw
 	user = User(nickname = nickname, password = password, email = email)
@@ -108,6 +108,7 @@ def rate(rateduser):
 
 
 @app.route('/listings')
+@login_required
 def listings():
 	allListings = Listing.query.all()
 	return render_template("listings.html",title ='Listings',lists=allListings,user=g.user)
