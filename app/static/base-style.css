@@ -1,0 +1,173 @@
+h1 {
+	border-bottom: 2px solid #eee;
+}
+
+body {
+	font-family: 'Noto Sans', sans-serif;
+}
+
+input:hover {
+	outline: 0; 
+}
+
+.maincontent {
+	margin: 0em auto;
+	max-width: 960px;
+	background: white; 
+}
+
+.navbar ul{
+	margin: 0px 0px auto;
+	padding: 0px 4px;
+	list-style-type: none;
+	border: 1px solid rgba(125,125,125,1);
+	border-radius: 15px;
+	background: #222;
+}
+
+.navbar li {
+	display: inline-block;
+	color: #fff;
+}
+
+.navbar li b, .navbar li a {
+	padding: 8px 10px 8px 10px;
+}
+.navbar li a {
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	color: #aaa;
+}
+
+.navbar li a:hover{
+	background-color: #444;
+}
+
+/* makes flash look nice */
+
+.flash {
+	margin: 5px 0px;
+}
+.flash ul {
+	list-style-type: none;
+	margin: 5px 0px auto;
+	padding: 0;	
+}
+
+.flash li {
+	background-color: rgba(51,204,255, 0.4);
+	border: 1px solid rgba(0,102,255,1);
+	border-radius: 15px 50px;
+	color: rgba(0,0,170,1);
+	padding-left: 1em;
+}
+
+/* spaces out forms */
+.form {
+	padding: 10px 0px 10px 20px;
+	margin-bottom: 10px;
+	background-color: rgba(220,220,220,0.5);
+	border: 1px solid rgba(150,150,150,0.5);
+	border-radius: 5px;
+}
+
+.form td {
+	padding: 5px 10px;
+}
+
+
+.navbtn, 
+.btn {
+	border-radius: 5px;
+  	margin: 0;
+  	padding: 3px 15px;
+  	color: white;
+  	cursor: pointer;
+}
+
+.btn {
+	background-color: rgba(0,102,255,0.8);
+  	border: 1px solid rgba(0,0,255,0.8);
+  	box-shadow: rgba(0,0,0,.6) 0 1px 0;
+  	text-shadow: rgba(0,0,0,.4) 0 1px 0;
+}
+
+.navbtn {
+	display: inline-block;
+	background-color: white;
+  	border: 1px solid rgba(200,200,200,0.5);
+  	box-shadow: none;
+  	text-shadow: none;
+}
+
+.btn:hover{
+	background-color: rgba(0,102,255,1);
+  	border: 1px solid rgba(0,0,255,1);
+}
+
+/*Removes browser blue dotted box around focused objects */
+.navbtn:focus,
+.btn:focus{
+	outline: 0;
+}
+
+/* Plain white link text on blue */
+.btn a {
+	text-decoration: none;
+	color: white;
+}
+
+/* No more links in this direct */
+.navbtn b {
+	color: rgba(200,200,200,0.5)
+}
+
+.navbtn a {
+	text-decoration: none;
+	color: #00e;
+	display: block;
+}
+
+.userpost {
+	padding: 10px 0px;
+	border-bottom: 1px solid rgba(200,200,200,1);
+}
+
+.userpost p, h1 {
+	margin: 0px 0px 10px 10px;
+}
+
+.userpost a {
+	text-decoration: none;
+	color: #00e;
+}
+
+#userinfo {
+	border-bottom: none;
+}
+
+.col1-3 {
+	width: 33%;
+}
+
+.col2-3{
+	width: 66%;
+}
+
+.col1-3, .col2-3 {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.vertspace {
+	margin: 10px 0px;
+}
+
+.floatright {
+	float: right;
+}
+
+.floatleft {
+	float: left;
+}

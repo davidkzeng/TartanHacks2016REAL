@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	{% if title %}
+  	<title>{{title}} - TartanHacks</title>
+  	{% else %}
+    <title>Dinex Market</title>
+    {% endif %}
+    <link rel = "stylesheet" type = "text/css" href = "{{url_for('static',filename = 'base-style-pure.css')}}">
+    <link rel = "stylesheet" type = "text/css" href = "{{url_for('static', filename ='pure/pure-min.css')}}">
+    <meta name = "viewport" content = "width = device-width,initial-scale=1">
+    <meta charset = "utf-8">
+  <body>
+  	<p> Hi Bobby </p>
+    {% block content %}{% endblock %}
+    <script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+  </body>
+</html>
