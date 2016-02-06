@@ -23,6 +23,8 @@ class RegisterForm(Form):
 		return True
 
 class ProfileForm(Form):
+	buyAlert = BooleanField('buyAlert', default = False)
+	sellAlert = BooleanField('sellAlert', default = False)
 	description = TextAreaField('desc')
 
 class RatingForm(Form):

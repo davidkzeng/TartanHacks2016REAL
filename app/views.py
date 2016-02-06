@@ -9,6 +9,7 @@ from config import EXAMPLE_IMPORT, ADMINS
 from forms import *
 from models import User, Listing
 from decimal import *
+import datetime
 
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
@@ -95,7 +96,8 @@ def editProfile():
 	form = ProfileForm()
 	if (form.validate_on_submit()):
 		g.user.description = form.description.data
-		db.session.add(g.user)
+		g.user.buyAlert = form.buyAlert.data
+		g.user.sellAlert = form.sellAlert.data
 		db.session.commit()
 		return redirect(url_for('profile'))
 	return render_template('editprofile.html', form = form, user = g.user)
@@ -114,7 +116,7 @@ def rate(rateduser):
 			user.numberOfRatings += 1
 		db.session.add(g.user)
 		db.session.commit()
-		return redirect(url_for('index'))
+		return redirect('/profile/' + user.nickname)
 	return render_template('ratingform.html', form = form, rateduser = rateduser)
 
 
@@ -138,7 +140,7 @@ def listings(setting = "aaa"):
 	allListings = allListingsQuery.all()
 	form = ListingForm()
 	if(form.validate_on_submit()):
-		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = float(form.price.data), details = form.details.data, location = form.location.data, active = True)
+		newList = Listing(blockOrDinex = form.blockOrDinex.data, timestamp = datetime.datetime.now(), price = float(form.price.data), details = form.details.data, location = form.location.data, active = True)
 		if form.buysell.data == 'Buy':
 			newList.buysell = True
 		else:
@@ -146,6 +148,16 @@ def listings(setting = "aaa"):
 		newList.user = g.user
 		db.session.add(newList)
 		db.session.commit()
+		if newList.buysell == True:
+			alertuserstup = db.session.query(User.email).filter_by(buyAlert=True).all()
+			print(alertuserstup)
+		else:
+			alertuserstup = User.query.filter_by(sellAlert=True)
+		alertusers = [x[0] for x in alertuserstup]
+		msg = Message('New Post Alert on Dining Exchange',sender='davidflasktest@gmail.com',recipients=alertusers)
+		msg.body = "Hello,\n\n A listing for which you are receiving alerts has been posted to CMU Dining Exchange."
+		msg.body += "\n\nThe listing is visible at " + "http://127.0.0.1:5000" + url_for('listings')
+		mail.send(msg)
 		return redirect(url_for('listings'))
 	return render_template("listings.html",title ='Listings',form = form,lists=allListings,
 		user=g.user,set = setting, updateFunc = update)
@@ -161,7 +173,7 @@ def transaction(postid):
 		post.active = False
 		db.session.add(post)
 		db.session.commit()
-		msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=[poster.email, g.user.email])
+		msg = Message('Dining Exchange Match',sender='davidflasktest@gmail.com',recipients=[poster.email, g.user.email])
 		msg.body = "Hello users,\n\n" + "You have recently been matched on CMU Dining Exchange. The user "
 		msg.body += str(g.user.nickname) + " will" # has accepted your offer. The terms of the agreement are: \n\n" 
 		if post.buysell:
@@ -171,8 +183,8 @@ def transaction(postid):
 		msg.body += "one " + post.blockOrDinex
 		msg.body += " per $" + str(post.price)  
 		msg.body += " from " + poster.nickname + ". The meeting location is " + post.location + "."
-		msg.body += "\n\nAfter the exchange, please rate each other on currentlynonexistentwebsite.com"
-		msg.body += url_for('rate', rateduser = poster.nickname) + " and currentlynonexistentwebsite.com"
+		msg.body += "\n\nAfter the exchange, please rate each other on http://127.0.0.1:5000"
+		msg.body += url_for('rate', rateduser = poster.nickname) + " and http://127.0.0.1:5000"
 		msg.body += url_for('rate', rateduser = g.user.nickname)
 		msg.body += "\n\nThank you for using CMU Dining Exchange!"		
 		mail.send(msg)

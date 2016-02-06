@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+<p><b>I want to receive email alerts about these kinds of new posts:</b><br>
+	<form action="" method="post" name="editprofile">
+	{{form.hidden_tag()}}
+	{{form.buyAlert}} Buy posts <br>
+	{{form.sellAlert}} Sell posts</p>
 <p><b>About Me: </b></p>
- <form action="" method="post" name="updateprof">
   	{{form.hidden_tag()}}
        {{form.description(size=140)}}
       <p><button type="submit" value="Update" class = "btn btn-default">Update</button></p>

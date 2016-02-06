@@ -13,6 +13,8 @@ class User(db.Model):
     numberOfRatings = db.Column(db.Integer)
     listing = db.Column(db.String(140))
     listings = db.relationship('Listing', backref='user', lazy='dynamic')
+    buyAlert = db.Column(db.Boolean, default = False)
+    sellAlert = db.Column(db.Boolean, default = False)
 
     @property
     def is_authenticated(self):
