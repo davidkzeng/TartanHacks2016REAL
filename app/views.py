@@ -168,7 +168,7 @@ def transaction(postid):
 			msg.body += "buy "
 		else:
 			msg.body += "sell "
-		msg.body += "one " post.blockOrDinex
+		msg.body += "one " + post.blockOrDinex
 		msg.body += " per $" + str(post.price)  
 		mail.send(msg)
 		return redirect(url_for('listings'))
