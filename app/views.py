@@ -54,7 +54,7 @@ def try_register(name,pw,email):
 	nickname = name
 	nickname = User.make_unique_nickname(nickname)
 	password = pw
-	user = User(nickname = nickname, password = password, email = email)
+	user = User(nickname = nickname, password = password, email = email, rating = 0.0)
 	db.session.add(user)
 	db.session.commit()
 	flash("We made a new account for you!")
@@ -101,7 +101,7 @@ def rate(rateduser):
 	user = User.query.filter_by(nickname=rateduser).first()
 	form = RatingForm()
 	if(form.validate_on_submit()):
-		if user.rating == None:
+		if user.rating == 0.0:
 			user.rating = form.rating.data
 			user.numberOfRatings = 1
 		else:
