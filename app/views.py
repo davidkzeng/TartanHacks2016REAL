@@ -133,3 +133,12 @@ def listings():
 		return redirect(url_for('listings'))
 	return render_template("listings.html",title ='Listings',form = form,lists=allListings,user=g.user)
 
+@app.route('/transaction/<int:postid>', methods=['GET','POST'])
+@login_required
+def transaction(postid):
+	post = Listing.query.filter_by(id = postid).first()
+	poster = User.query.filter_by(id=post.user_id).first()
+	form = TransactionForm()
+	if(form.validate_on_submit()):
+		pass	
+	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
