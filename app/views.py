@@ -9,7 +9,11 @@ from config import EXAMPLE_IMPORT, ADMINS
 from forms import *
 from models import User, Listing
 from decimal import *
-import datetime
+from urllib2 import urlopen
+import json
+from datetime import datetime, timedelta
+import pygal
+from pygal.style import TurquoiseStyle	
 
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
@@ -141,7 +145,7 @@ def listings(setting = "aaa"):
 	allListings = allListingsQuery.all()
 	form = ListingForm()
 	if(form.validate_on_submit()):
-		newList = Listing(blockOrDinex = form.blockOrDinex.data, timestamp = datetime.datetime.now(), price = float(form.price.data), details = form.details.data, location = form.location.data, active = True)
+		newList = Listing(blockOrDinex = form.blockOrDinex.data, timestamp = datetime.now(), price = float(form.price.data), details = form.details.data, location = form.location.data, active = True)
 		if form.buysell.data == 'Buy':
 			newList.buysell = True
 		else:
@@ -151,14 +155,14 @@ def listings(setting = "aaa"):
 		db.session.commit()
 		if newList.buysell == True:
 			alertuserstup = db.session.query(User.email).filter_by(buyAlert=True).all()
-			print(alertuserstup)
 		else:
-			alertuserstup = User.query.filter_by(sellAlert=True)
+			alertuserstup = db.session.query(User.email).filter_by(sellAlert=True).all()
 		alertusers = [x[0] for x in alertuserstup]
-		msg = Message('New Post Alert on Dining Exchange',sender='davidflasktest@gmail.com',recipients=alertusers)
-		msg.body = "Hello,\n\n A listing for which you are receiving alerts has been posted to CMU Dining Exchange."
-		msg.body += "\n\nThe listing is visible at " + "http://127.0.0.1:5000" + url_for('listings')
-		mail.send(msg)
+		if (len(alertusers) != 0):
+			msg = Message('New Post Alert on Dining Exchange',sender='davidflasktest@gmail.com',recipients=alertusers)
+			msg.body = "Hello,\n\n A listing for which you are receiving alerts has been posted to CMU Dining Exchange."
+			msg.body += "\n\nThe listing is visible at " + "http://127.0.0.1:5000" + url_for('listings')
+			mail.send(msg)
 		return redirect(url_for('listings'))
 	return render_template("listings.html",title ='Listings',form = form,lists=allListings,
 		user=g.user,set = setting, updateFunc = update)
@@ -172,6 +176,7 @@ def transaction(postid):
 	form = TransactionForm()
 	if(form.validate_on_submit()):
 		post.active = False
+		post.datetime = datetime.now()
 		db.session.add(post)
 		db.session.commit()
 		msg = Message('Dining Exchange Match',sender='davidflasktest@gmail.com',recipients=[poster.email, g.user.email])
@@ -195,6 +200,24 @@ def transaction(postid):
 @app.route('/success')
 def success():
 	return render_template("success.html")
+
+def getPastTransactions():
+	pastListings = Listing.query.filter_by(active = False).all()
+	return pastListings
+
+@app.route('/priceHistory')
+def priceHistory():
+	blockHistory = getPastTransactions()
+	blockHistoryTimes = [x.timestamp for x in blockHistory]
+	blockPrices = [x.price if x.blockOrDinex == "Block" else None for x in blockHistory]
+	dinexPrices = [x.price if x.blockOrDinex == "Dinex" else None for x in blockHistory]
+	date_chart = pygal.Line(x_label_rotation=20,style = TurquoiseStyle,x_title = "Time Sold",
+		y_title = "Price per Block",height = 400)
+	date_chart.x_labels = map(lambda d: d.strftime('%Y-%m-%d %H:%M'), blockHistoryTimes)
+	date_chart.add("Blocks",blockPrices)
+	date_chart.add("Dinex",dinexPrices,secondary = True)
+	date_chart.render()
+	return render_template('pricehistory.html',price_chart = date_chart)
 
 def update(stringSet, change):
 	setting = list(stringSet)

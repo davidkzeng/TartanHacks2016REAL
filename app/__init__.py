@@ -15,4 +15,8 @@ lm.login_view = 'login'
 
 mail = Mail(app)
 
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 from app import views, models

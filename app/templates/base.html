@@ -18,7 +18,8 @@
 
     <!-- Custom CSS -->
     <link href="{{url_for('static',filename='bootstrap/css/simple-sidebar.css')}}" rel="stylesheet">
-
+    <script type="text/javascript" src="{{url_for('static',filename='svg.jquery.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='pygal-tooltips.js')}}"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -51,6 +52,9 @@
                 </li>
                 <li>
                     <a href="{{url_for('listings')}}">Listings</a>
+                </li>
+                <li>
+                    <a href="{{url_for('priceHistory')}}">Price History</a>
                 </li>
                 <li>
                     <a href="{{url_for('logout')}}">Logout</a>
