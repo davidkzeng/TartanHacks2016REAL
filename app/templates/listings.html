@@ -3,8 +3,13 @@
   <h1>{{ user.nickname }}!</h1>
    {% for list in lists %} 
     <div> {{ list.user.nickname }}</div>
-    <div class = "listing"><p> Description: {{list.description}}</b></p></div>
+    {% if list.buysell %}
+    	<p> BUYING </p>
+    {% else %}
+    	<p> SELLING </p>
+    {% endif %}
+    <div class = "listing"><p> Description: {{list.details}}</b></p></div>
     <div class = "location"><p> Location: {{list.location}}</p></div>
-    <div class = "time-avail"><p> Time Available: {{list.timeAvail}}</p></div>
+    <div class = "time-avail"><p> Exchange Rate: {{list.exchangerate}}</p></div>
     {% endfor %}
 {% endblock %}

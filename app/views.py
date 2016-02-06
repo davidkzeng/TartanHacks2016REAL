@@ -5,7 +5,7 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm
 from config import EXAMPLE_IMPORT
 from forms import *
-from models import User
+from models import User, Listing
 
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
@@ -106,29 +106,8 @@ def rate(rateduser):
 		return redirect(url_for('index'))
 	return render_template('ratingform.html', form = form, rateduser = rateduser)
 
+
 @app.route('/listings')
 def listings():
-	lists = [
-		{
-			'user' : {'nickname : George'}
-			'description' : '1 block'
-			'location' : 'UC'
-			'timeAvail' : '1-3'
-
-		}
-		{
-			'user' : {'nickname : Bob'}
-			'description' : '1 block'
-			'location' : 'Resnik'
-			'timeAvail' : '2-4'
-
-		}
-		{
-			'user' : {'nickname : David'}
-			'description' : '1 block'
-			'location' : 'Exchange'
-			'timeAvail' : '3-6'
-		}
-	]
-	return render_template("listings.html",title ='Listings',lists=lists)
-
+	allListings = Listing.query.all()
+	return render_template("listings.html",title ='Listings',lists=allListings,user=g.user)
