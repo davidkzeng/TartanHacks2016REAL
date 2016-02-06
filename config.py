@@ -14,5 +14,5 @@ MAIL_SERVER= 'smtp.gmail.com'
 MAIL_PORT=465
 MAIL_USE_SSL=True
 MAIL_USERNAME = 'davidflasktest@gmail.com'
-MAIL_PASSWORD = 'flasktest'
+MAIL_PASSWORD = ''
 ADMINS = ['davidflasktest@gmail.com']

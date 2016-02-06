@@ -161,10 +161,15 @@ def transaction(postid):
 		db.session.add(post)
 		db.session.commit()
 		msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=[poster.email])
-		msg.body = "Hello " + poster.nickname + "\n" + "Congratulations! Your listing has found a match. The User "
-		+ g.user.nickname + " has accepted your generous offer. The terms of the agreement are as follows \n" 
-		+ "Location: " + post.location + "\n"
-		+ "You will buy money" 
+		msg.body = "Hello " + poster.nickname + ", \n" + "Your listing on CMUDiningMarket has found a match. The user "
+		msg.body += str(g.user.nickname) + " has accepted your offer. The terms of the agreement are: \n" 
+		msg.body += "Location: " + post.location + "\n" + "You will "
+		if post.buysell:
+			msg.body += "buy "
+		else:
+			msg.body += "sell "
+		msg.body += "one " post.blockOrDinex
+		msg.body += " per $" + str(post.price)  
 		mail.send(msg)
 		return redirect(url_for('listings'))
 	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
