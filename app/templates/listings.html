@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{{ user.nickname }}! Here are currently active listings:</h1>
- <div class="dropdown buttonblock">
+<div class="panel panel-info">
+  <div class="panel-heading">  <h1>{{ user.nickname }}! Here are currently active listings:</h1> </div>
+  <div class="panel-body">
+    <div class="dropdown buttonblock">
    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Sort By <span class="caret"></span>
     </button>
@@ -66,9 +68,15 @@
       </div>
     </div>
     {% endfor %}
-	<h1 class = "listingHeading">Or post your own listing:</h1>
+  </div>
+</div>
 
-	<form action = "" method = "post" name = "register">
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title"><h1 class = "listingHeading">Or post your own listing:</h1></h3>
+  </div>
+  <div class="panel-body">
+    <form action = "" method = "post" name = "register">
 		{{form.hidden_tag()}}
 
       <div class = "form-group">
@@ -120,4 +128,6 @@
       });
     </script>
 	</form>
+  </div>
+</div>
 {% endblock %}
