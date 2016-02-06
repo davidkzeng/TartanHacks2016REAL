@@ -2,9 +2,11 @@
 {% block content %}
   <h1>{{ user.nickname }}!</h1>
    {% for list in lists %} 
-    <div> {{ list.user.nickname }}</div>
-    <div class = "listing"><p> Description: {{list.description}}</b></p></div>
-    <div class = "location"><p> Location: {{list.location}}</p></div>
-    <div class = "time-avail"><p> Time Available: {{list.timeAvail}}</p></div>
+    <p>
+    	<div> Name: {{ list.author.nickname }}</div>
+    	<div class = "listing">Description: {{list.description}}</div>
+    	<div class = "location">Location: {{list.location}}</div>
+    	<div class = "time-avail"> Time Available: {{list.timeAvail}}</div>
+    </p>
     {% endfor %}
 {% endblock %}
