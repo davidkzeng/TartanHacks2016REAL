@@ -9,7 +9,8 @@ class User(db.Model):
     email = db.Column(db.String(120), index=True)
     description = db.Column(db.String(140))
     profileName = db.Column(db.String(64))
-    rating = db.Column(db.Integer)
+    rating = db.Column(db.Float)
+    numberOfRatings = db.Column(db.Integer)
     listing = db.Column(db.String(140))
     listings = db.relationship('Listing', backref='user', lazy='dynamic')
 
@@ -49,4 +50,3 @@ class Listing(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % (self.body)
-
