@@ -271,12 +271,12 @@ def display(setting, check):
 
 @app.route('/createdata')
 def createSomeData():
-	for i in range (10):
+	for i in range (6):
 		newList = Listing(blockOrDinex = "Block", timestamp = datetime.now(), price = float(randrange(40,70,5))/10, 
 			details = "", location = 'University Center', active = False)
 		db.session.add(newList)
 		db.session.commit()
-	for j in range (10):
+	for j in range (6):
 		newList = Listing(blockOrDinex = "Dinex", timestamp = datetime.now(), price = float(randrange(50,90,5))/100, 
 			details = "", location = 'University Center', active = False)
 		db.session.add(newList)
