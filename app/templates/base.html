@@ -44,7 +44,10 @@
                     <a href="{{url_for('index')}}">Home</a>
                 </li>
                 <li>
-                    <a href="{{url_for('profile')}}">Profile ({{g.user.nickname}})</a>
+                    <a href="{{url_for('profile')}}">Profile 
+                        {% if not g.user.is_anonymous %}
+                        ({{g.user.nickname}})
+                        {% endif %}</a>
                 </li>
                 <li>
                     <a href="{{url_for('listings')}}">Listings</a>
