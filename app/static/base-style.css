@@ -1,5 +1,6 @@
 .leftspace {
 	margin-left: 20px;
+	display:inline-block;
 }
 
 .pure-g > div {
@@ -21,6 +22,7 @@
 
 .highlight {
 	text-decoration: bold;
+	display:inline-block;
 }
 
 .dropdown {
