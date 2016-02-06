@@ -215,7 +215,12 @@ def priceHistory():
 		y_title = "Price per Block",height = 400)
 	date_chart.x_labels = map(lambda d: d.strftime('%Y-%m-%d %H:%M'), blockHistoryTimes)
 	date_chart.add("Blocks",blockPrices)
-	date_chart.add("Dinex",dinexPrices,secondary = True)
+	secondaryExists = False
+	for x in dinexPrices:
+		if x != None:
+			secondaryExists = True
+	if secondaryExists:
+		date_chart.add("Dinex",dinexPrices, secondary = True)
 	date_chart.render()
 	return render_template('pricehistory.html',price_chart = date_chart)
 
@@ -256,3 +261,5 @@ def update(stringSet, change):
 def display(setting, check):
 	return check in setting
 
+def createSomeData():
+	return true
