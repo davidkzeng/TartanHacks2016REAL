@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
 from config import EXAMPLE_IMPORT
-from forms import LoginForm, RegisterForm, ProfileForm
+from forms import *
 from models import User
 
 @app.route('/',methods = ['GET','POST'])
@@ -93,6 +93,19 @@ def editProfile():
     	db.session.commit()
 	return render_template('editprofile.html', form = form, user = g.user)
 
+
+@app.route('/rate/<rateduser>',methods=['GET','POST'])
+@login_required
+def rate(rateduser):
+	user = User.query.filter_by(nickname=rateduser).first()
+	form = RatingForm()
+	if(form.validate_on_submit()):
+		user.rating = form.rating.data
+		db.session.add(g.user)
+		db.session.commit()
+		return redirect(url_for('index'))
+	return render_template('ratingform.html', form = form, rateduser = rateduser)
+
 @app.route('/listings')
 def listings():
 	lists = [
@@ -118,3 +131,4 @@ def listings():
 		}
 	]
 	return render_template("listings.html",title ='Listings',lists=lists)
+

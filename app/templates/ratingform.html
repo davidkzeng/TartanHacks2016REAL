@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>You are rating {{ rateduser }}!</h1>
+ 	<form action="" method="post" name="rating">
+      {{ form.hidden_tag() }}
+      {{ form.rating() }}
+      <p><input type="submit" value="Submit"></p>
+  </form>
+{% endblock %}
