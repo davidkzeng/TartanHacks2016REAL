@@ -81,7 +81,9 @@ def before_request():
 @app.route('/profile')
 @app.route('/profile/<nickname>')
 @login_required
-def profile(nickname):
+def profile(nickname = ""):
+	if(nickname == ""):
+		nickname = g.user.nickname
 	nickUser = User.query.filter_by(nickname=nickname).first()
 	return render_template('profile.html', user = nickUser, loginUser = g.user)
 

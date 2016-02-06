@@ -3,5 +3,7 @@
     <h1>{{ user.nickname }}!</h1>
     <div class = "rating"><p> Rating: {{ user.rating|round(2) }} | Number of ratings: {{user.numberOfRatings}}</p><div>
     <div class = "listing"><p> {{user.nickname}} is {{user.description}}</b></p></div>
+    {% if user.nickname == loginUser.nickname %}
     <p><a href = "{{url_for('editProfile')}}" class = "btn btn-default">Edit Your Profile</a></p>
+    {% endif %}
 {% endblock %}
