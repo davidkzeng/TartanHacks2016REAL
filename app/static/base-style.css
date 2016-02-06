@@ -38,8 +38,7 @@
 }
 
 .registerbutton {
-	margin-top: 1em;
-	background-color:#BFEFFF;
+	display: inline-block;
 }
 
 .pagehead {
