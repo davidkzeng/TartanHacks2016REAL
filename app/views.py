@@ -8,6 +8,7 @@ from app import app, db, lm, mail
 from config import EXAMPLE_IMPORT, ADMINS
 from forms import *
 from models import User, Listing
+from decimal import *
 
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
@@ -17,7 +18,7 @@ def index():
 @app.route('/login',methods = ['GET','POST'])
 def login():
 	if g.user is not None and g.user.is_authenticated:
-		return redirect(url_for('index'))
+		return redirect(url_for('profile'))
 	form = LoginForm()
 	if(form.validate_on_submit()):
 		session['remember_me'] = form.remember_me.data
@@ -160,19 +161,27 @@ def transaction(postid):
 		post.active = False
 		db.session.add(post)
 		db.session.commit()
-		msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=[poster.email])
-		msg.body = "Hello " + poster.nickname + ", \n" + "Your listing on CMUDiningMarket has found a match. The user "
-		msg.body += str(g.user.nickname) + " has accepted your offer. The terms of the agreement are: \n" 
-		msg.body += "Location: " + post.location + "\n" + "You will "
+		msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=[poster.email, g.user.email])
+		msg.body = "Hello users,\n\n" + "You have recently been matched on CMU Dining Exchange. The user "
+		msg.body += str(g.user.nickname) + " will" # has accepted your offer. The terms of the agreement are: \n\n" 
 		if post.buysell:
-			msg.body += "buy "
+			msg.body += " buy "
 		else:
-			msg.body += "sell "
+			msg.body += " sell "
 		msg.body += "one " + post.blockOrDinex
 		msg.body += " per $" + str(post.price)  
+		msg.body += " from " + poster.nickname + ". The meeting location is " + post.location + "."
+		msg.body += "\n\nAfter the exchange, please rate each other on currentlynonexistentwebsite.com"
+		msg.body += url_for('rate', rateduser = poster.nickname) + " and currentlynonexistentwebsite.com"
+		msg.body += url_for('rate', rateduser = g.user.nickname)
+		msg.body += "\n\nThank you for using CMU Dining Exchange!"		
 		mail.send(msg)
-		return redirect(url_for('listings'))
+		return redirect(url_for('success'))
 	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
+
+@app.route('/success')
+def success():
+	return render_template("success.html")
 
 def update(stringSet, change):
 	setting = list(stringSet)

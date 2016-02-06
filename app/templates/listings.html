@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{{ user.nickname }}!</h1>
+  <h1>{{ user.nickname }}! Here are currently active listings:</h1>
  <div class="dropdown buttonblock">
    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Sort By <span class="caret"></span>
@@ -11,7 +11,7 @@
       [x]
       {% endif %}Exchange Rate (Ascending)</a></li>
      <li><a href="{{url_for('listings', setting = updateFunc(set,'g'))}}">
-      {% if 'u' in set %}
+      {% if 'g' in set %}
       [x]
       {% endif %}Exchange Rate (Descending)</a></li>
   </ul>
@@ -25,11 +25,11 @@
       {% if 'b' in set %}
       [x]
       {% endif %}
-      Search Buyers</a></li>
+      Buyers</a></li>
     <li><a href="{{url_for('listings', setting = updateFunc(set,'s'))}}">
       {% if 's' in set %}
       [x]
-      {% endif %}Search Sellers</a></li>
+      {% endif %}Sellers</a></li>
           <li role="separator" class="divider"></li>
     <li><a href="{{url_for('listings', setting = updateFunc(set,'l'))}}">
         {% if 'l' in set %}
@@ -41,6 +41,9 @@
       {% endif %}Dinex</a></li>
   </ul>
     </div>
+    {% if lists == [] %}
+    <br><br><div class = "pure-u-1-4 text-center"><p><i>Looks like there are no listings...</i></p></div>
+    {% endif %}  
    {% for list in lists %} 
    <div class = "l-box">
     <div class = "highlight">
@@ -62,7 +65,7 @@
       </div>
     </div>
     {% endfor %}
-	<h1 class = "listingHeading"> Put up a Listing</h1>
+	<h1 class = "listingHeading">Or post your own listing:</h1>
 
 	<form action = "" method = "post" name = "register">
 		{{form.hidden_tag()}}
@@ -94,7 +97,7 @@
 			<div class = "form-group">
         <label class="col-sm-2 control-label">Details</label>
           <div class="col-sm-10">
-        	  {{form.details(size=60,placeholder="Details",class="form-control")}}
+        	  {{form.details(size=60,placeholder="More location info, details on quantity of Dinex, favorite color, etc",class="form-control")}}
           </div>
       </div>
 

@@ -7,7 +7,7 @@ class User(db.Model):
     nickname = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(64), index = True)
     email = db.Column(db.String(120), index=True)
-    description = db.Column(db.String(140))
+    description = db.Column(db.String(140), default = "I'm too lame to write a description of myself!")
     profileName = db.Column(db.String(64))
     rating = db.Column(db.Float)
     numberOfRatings = db.Column(db.Integer)
