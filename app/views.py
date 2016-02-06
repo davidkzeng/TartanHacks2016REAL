@@ -158,6 +158,7 @@ def listings(setting = "aaa"):
 		else:
 			alertuserstup = db.session.query(User.email).filter_by(sellAlert=True).all()
 		alertusers = [x[0] for x in alertuserstup]
+		alertusers = filter (lambda x: ('@' in x) and ('.' in x), alertusers)
 		if (len(alertusers) != 0):
 			msg = Message('New Post Alert on Dining Exchange',sender='davidflasktest@gmail.com',recipients=alertusers)
 			msg.body = "Hello,\n\n A listing for which you are receiving alerts has been posted to CMU Dining Exchange."
@@ -179,21 +180,24 @@ def transaction(postid):
 		post.datetime = datetime.now()
 		db.session.add(post)
 		db.session.commit()
-		msg = Message('Dining Exchange Match',sender='davidflasktest@gmail.com',recipients=[poster.email, g.user.email])
-		msg.body = "Hello users,\n\n" + "You have recently been matched on CMU Dining Exchange. The user "
-		msg.body += str(g.user.nickname) + " will" # has accepted your offer. The terms of the agreement are: \n\n" 
-		if post.buysell:
-			msg.body += " buy "
-		else:
-			msg.body += " sell "
-		msg.body += "one " + post.blockOrDinex
-		msg.body += " per $" + str(post.price)  
-		msg.body += " from " + poster.nickname + ". The meeting location is " + post.location + "."
-		msg.body += "\n\nAfter the exchange, please rate each other on http://127.0.0.1:5000"
-		msg.body += url_for('rate', rateduser = poster.nickname) + " and http://127.0.0.1:5000"
-		msg.body += url_for('rate', rateduser = g.user.nickname)
-		msg.body += "\n\nThank you for using CMU Dining Exchange!"		
-		mail.send(msg)
+		recipients = [poster.email, g.user.email]
+		recipients = filter (lambda x: ('@' in x) and ('.' in x), recipients)
+		if len(recipients) != 0:
+			msg = Message('Dining Exchange Match',sender='davidflasktest@gmail.com',recipients=recipients)
+			msg.body = "Hello users,\n\n" + "You have recently been matched on CMU Dining Exchange. The user "
+			msg.body += str(g.user.nickname) + " will" # has accepted your offer. The terms of the agreement are: \n\n" 
+			if post.buysell:
+				msg.body += " buy "
+			else:
+				msg.body += " sell "
+			msg.body += "one " + post.blockOrDinex
+			msg.body += " per $" + str(post.price)  
+			msg.body += " from " + poster.nickname + ". The meeting location is " + post.location + "."
+			msg.body += "\n\nAfter the exchange, please rate each other on http://127.0.0.1:5000"
+			msg.body += url_for('rate', rateduser = poster.nickname) + " and http://127.0.0.1:5000"
+			msg.body += url_for('rate', rateduser = g.user.nickname)
+			msg.body += "\n\nThank you for using CMU Dining Exchange!"		
+			mail.send(msg)
 		return redirect(url_for('success'))
 	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
 
