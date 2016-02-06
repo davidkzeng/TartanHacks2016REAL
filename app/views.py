@@ -9,7 +9,6 @@ from models import User, Listing
 
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
-@login_required
 def index():
 	return render_template('index.html',testvar = "lol this is a test")
 	
