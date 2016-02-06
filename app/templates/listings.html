@@ -1,46 +1,133 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>{{ user.nickname }}!</h1>
+<div class="panel panel-info">
+  <div class="panel-heading">  <h1>{{ user.nickname }}! Here are currently active listings:</h1> </div>
+  <div class="panel-body">
+    <div class="dropdown buttonblock">
+   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Sort By <span class="caret"></span>
+    </button>
+  <ul class="dropdown-menu">
+     <li><a href="{{url_for('listings', setting = updateFunc(set,'u'))}}">
+      {% if 'u' in set %}
+      [x]
+      {% endif %}Exchange Rate (Ascending)</a></li>
+     <li><a href="{{url_for('listings', setting = updateFunc(set,'g'))}}">
+      {% if 'g' in set %}
+      [x]
+      {% endif %}Exchange Rate (Descending)</a></li>
+  </ul>
+    </div>
+     <div class="dropdown buttonblock">
+   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Filter By <span class="caret"></span>
+    </button>
+  <ul class="dropdown-menu">
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'b'))}}">
+      {% if 'b' in set %}
+      [x]
+      {% endif %}
+      Buyers</a></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'s'))}}">
+      {% if 's' in set %}
+      [x]
+      {% endif %}Sellers</a></li>
+          <li role="separator" class="divider"></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'l'))}}">
+        {% if 'l' in set %}
+      [x]
+      {% endif %}Blocks</a></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'d'))}}">
+      {% if 'd' in set %}
+      [x]
+      {% endif %}Dinex</a></li>
+  </ul>
+    </div>
+    {% if lists == [] %}
+    <br><br><div class = "pure-u-1-4 text-center"><p><i>Looks like there are no listings...</i></p></div>
+    {% endif %}  
    {% for list in lists %} 
-    <div> {{ list.user.nickname }}</div>
+   <div class = "l-box">
+    <div class = "highlight">
     {% if list.buysell %}
-    	<p> BUYING </p>
+         <b>BUYING</b> 
     {% else %}
-    	<p> SELLING </p>
+        <b>SELLING </b>
     {% endif %}
-    <div class = "listing"><p> Description: {{list.details}}</b></p></div>
-    <div class = "location"><p> Location: {{list.location}}</p></div>
-    <div class = "time-avail"><p> Exchange Rate: {{list.exchangerate}}</p></div>
+   </div>
+    <div class = "leftspace"><a href = "{{url_for('profile')}}/{{ list.user.nickname }}">
+      {{list.user.nickname}}</a>
+   </div>
+    <div class = "pure-g">
+    <div class = "pure-u-1-5 text-center"><p> Time posted: {{list.timestamp}}</p></div>      
+    <div class = "pure-u-1-5 text-center"><p> Location: {{list.location}}</p></div>
+    <div class = "pure-u-1-5 text-center"><p> {{list.blockOrDinex}} at $ {{list.price}} each</p></div>
+    <div class = "pure-u-1-5 text-center"><p> Details: {{list.details}}</p></div>
+    <div class = "pure-u-1-5 text-center"><p><a href="{{ url_for('.transaction', postid=list.id) }}">
+    I'm interested</a></p></div>
+      </div>
+    </div>
     {% endfor %}
-	<h1> Put up a Listing</h1>
-	<form action = "" method = "post" name = "register">
+  </div>
+</div>
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title"><h1 class = "listingHeading">Or post your own listing:</h1></h3>
+  </div>
+  <div class="panel-body">
+    <form action = "" method = "post" name = "register">
 		{{form.hidden_tag()}}
+
+      <div class = "form-group">
+        <label class="col-sm-10 control-label">Buy or sell</label>
+          {{form.buysell(placeholder="Buy or Sell",class="form-control")}}
+      </div><br>
+
+      <div class = "form-group">
+        <label class="col-sm-10 control-label">Block or Dinex</label>
+          {{form.blockOrDinex(placeholder="Block or Dinex",class="form-control")}}
+      </div><br>
+
+      <div class = "form-group">
+        <label class="col-sm-2 control-label">Price</label>
+          <div class="col-sm-10">
+            {{form.price(placeholder="Block price in $, or Dinex rate in ratio form (e.g. 0.80 means $1 Dinex = $0.80) ",class="form-control")}}
+          </div>
+      </div><br>
+
+      <div class = "form-group">
+        <label class="col-sm-2 control-label">Location</label>
+          <div class="col-sm-10">
+             {{form.location(placeholder="Location",class="form-control")}}
+          </div>
+      </div><br>
+
 			<div class = "form-group">
-              <label class="col-sm-2 control-label">Details</label>
-              <div class="col-sm-10">
-            	 {{form.details(size=60,placeholder="Details",class="form-control")}}
-              </div>
-            </div>
-            <div class = "form-group">
-              <label class="col-sm-2 control-label">Location</label>
-              <div class="col-sm-10">
-             {{form.location(size=60,placeholder="Location",class="form-control")}}
-              </div>
-            </div>
-            <div class = "form-group">
-              <label class="col-sm-2 control-label">Time Available</label>
-              <div class="col-sm-10">
-             {{form.timeAvail(size=60,placeholder="Time Available",class="form-control")}}
-              </div>
-            </div>
-            <div class = "form-group">
-              <label class="col-sm-2 control-label">Buy or sell</label>
-             {{form.buyorsell(placeholder="Buy or Sell",class="form-control")}}
-            </div>
+        <label class="col-sm-2 control-label">Details</label>
+          <div class="col-sm-10">
+        	  {{form.details(size=60,placeholder="More location info, details on quantity of Dinex, favorite color, etc",class="form-control")}}
+          </div>
+      </div>
+
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-3">
             <button type="submit" class="btn btn-default" value = "Submit">Submit</button>
           </div>
         </div>
+            <script>
+      $(document).ready(function() {
+          $("button.dropdown-toggle").click(function(ev) {
+              $("button.dropdown-toggle").dropdown("toggle");
+              return false;
+          });
+          $("ul.dropdown-menu a").click(function(ev) {
+              $("a.dropdown-toggle").dropdown("toggle");
+              return false;
+          });
+      });
+    </script>
 	</form>
+  </div>
+</div>
 {% endblock %}

@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>{{ user.nickname }}!</h1>
-    <div class = "rating"><p> Rating: {{ user.rating| round(2) }} | Number of ratings: {{user.numberOfRatings}}</p><div>
-    <div class = "listing"><p> {{user.nickname}} is {{user.description}}</b></p></div>
-{% endblock %}
+	<div class="panel panel-info" style="border-color: #B0E2FF;">
+  		<div class="panel-heading" style="background-color:#B0E2FF;">
+    		<h3 class="panel-title" style="Font-size:30px; color:#27408B;">{{ user.nickname }}'s Profile</h3>
+  		</div>
+  		<div class="panel-body">
+   			<div class = "rating"><p> <b>Rating:</b> {{ user.rating|round(2) }} / 5.0 <br> <b>Number of ratings</b>: {{user.numberOfRatings}}</p><div>
+   			 <p> <b>Buy alerts:</b> {{user.buyAlert}}<br>
+    		<b>Sell alerts:</b> {{user.sellAlert}}</p>
+   			<div class = "listing"><p><b>About Me:</b> {{user.description}}</b></p></div>
+   			{% if user.nickname == loginUser.nickname %}
+    			<p><a href = "{{url_for('editProfile')}}" class = "btn btn-info">Edit Your Profile and Alerts</a></p>
+    		{% endif %}{%endblock%}
+  		</div>
+	</div>
+    

@@ -7,12 +7,14 @@ class User(db.Model):
     nickname = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(64), index = True)
     email = db.Column(db.String(120), index=True)
-    description = db.Column(db.String(140))
+    description = db.Column(db.String(140), default = "I'm too lame to write a description of myself!")
     profileName = db.Column(db.String(64))
     rating = db.Column(db.Float)
     numberOfRatings = db.Column(db.Integer)
     listing = db.Column(db.String(140))
     listings = db.relationship('Listing', backref='user', lazy='dynamic')
+    buyAlert = db.Column(db.Boolean, default = False)
+    sellAlert = db.Column(db.Boolean, default = False)
 
     @property
     def is_authenticated(self):
@@ -43,10 +45,12 @@ class Listing(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     timestamp = db.Column(db.DateTime)
-    exchangerate = db.Column(db.Float)
     buysell = db.Column(db.Boolean)
+    blockOrDinex = db.Column(db.String)
+    price = db.Column(db.Float)
+    location = db.Column(db.String(50))
     details = db.Column(db.String(140))
-    location = db.Column(db.String(140))
+    active = db.Column(db.Boolean)
 
     def __repr__(self):
         return '<Post %r>' % (self.body)

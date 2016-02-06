@@ -1,4 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>String thats coming from views.py:, {{testvar}}!</h1>
+<h1>Welcome to the CMU Dining Exchange!</h1>
+<p><i>Not to be confused with <a href = "http://webapps.studentaffairs.cmu.edu/dining/ConceptInfo/?page=conceptDetails&conceptId=92">The Exchange</a>, located in the Tepper School of Business.</i></p>
+
+<p>Here you can arrange meetings to buy and sell meal blocks or Dinex from the CMU Dining Plan.</p>
+{% if g.user.is_anonymous %}
+<p><a href = "{{url_for('register')}}" class = "btn btn-info">Register a new account</a> or <a href = "{{url_for('login')}}" class = "btn btn-info">Sign in</a> with an existing account.	</p>
+{% endif %}
 {% endblock %}

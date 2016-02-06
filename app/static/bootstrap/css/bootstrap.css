@@ -9,6 +9,8 @@ html {
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
+
+
 body {
   margin: 0;
 }
@@ -3061,7 +3063,7 @@ fieldset[disabled] a.btn {
 }
 .btn-default {
   color: #333;
-  background-color: #fff;
+  background-color: #BFEFFF;;
   border-color: #ccc;
 }
 .btn-default:focus,

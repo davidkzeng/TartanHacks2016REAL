@@ -1,16 +1,16 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, BooleanField, TextAreaField, FileField, SelectField
+from wtforms import StringField, BooleanField, TextAreaField, FileField, SelectField, DecimalField, PasswordField
 from wtforms.validators import DataRequired, Length
 from .models import User
 
 class LoginForm(Form):
 	nickname = StringField('nickname',validators= [DataRequired()])
-	password = StringField('password',validators =[DataRequired()])
+	password = PasswordField('password',validators =[DataRequired()])
 	remember_me = BooleanField('remember_me',default = False)
 
 class RegisterForm(Form):
 	nickname = StringField('openid',validators= [DataRequired()])
-	password = StringField('password',validators =[DataRequired()])
+	password = PasswordField('password',validators =[DataRequired()])
 	email = StringField('email',validators= [DataRequired()])
 
 	def validate(self):
@@ -23,13 +23,21 @@ class RegisterForm(Form):
 		return True
 
 class ProfileForm(Form):
-	description = StringField('desc')
+	buyAlert = BooleanField('buyAlert', default = False)
+	sellAlert = BooleanField('sellAlert', default = False)
+	description = TextAreaField('desc')
 
 class RatingForm(Form):
 	rating = SelectField('rating', choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
 
 class ListingForm(Form):
-	details = StringField('det')
-	location = StringField('loc')
-	timeAvail = StringField('time')
-	buyorsell = SelectField('rating', choices=[('Buy', 'Buy'), ('Sell','Sell')])
+	buysell = SelectField('rating', choices=[('Buy', 'Buy'), ('Sell','Sell')])
+	blockOrDinex = SelectField('rating', choices=[('Block', 'Block'), ('Dinex','Dinex')])
+	price = StringField('price')
+	location = SelectField('rating', choices=[('University Center', 'University Center'), ('Resnik','Resnik'), ('Exchange','Exchange'),('Newell-Simon','Newell-Simon'),('Underground','Underground'),('Other (location in details)', 'Other (location in details)'), ('Any', 'Any')])
+	details = StringField('details')
+
+class TransactionForm(Form):
+	confirm = BooleanField('confirm', default = False, validators= [DataRequired()])
+
+
