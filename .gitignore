@@ -3,3 +3,4 @@ app/forms.pyc
 app/models.pyc
 app/views.pyc
 *.pyc
+*.db
