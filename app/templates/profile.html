@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>{{ user.nickname }}'s Profile</h1>
-    <div class = "rating"><p> <b>Rating:</b> {{ user.rating|round(2) }} <br> <b>Number of ratings</b>: {{user.numberOfRatings}}</p><div>
-    <p> <b>Buy alerts:</b> {{user.buyAlert}}<br>
-    <b>Sell alerts:</b> {{user.sellAlert}}</p>
-    <div class = "listing"><p><b>About Me:</b> {{user.description}}</b></p></div>
-    {% if user.nickname == loginUser.nickname %}
-    <p><a href = "{{url_for('editProfile')}}" class = "btn btn-default">Edit Your Profile and Alerts</a></p>
-    {% endif %}{%endblock%}
+	<div class="panel panel-default">
+  		<div class="panel-heading">
+    		<h3 class="panel-title" style="Font-size:30px">{{ user.nickname }}'s Profile</h3>
+  		</div>
+  		<div class="panel-body">
+   			<div class = "rating"><p> <b>Rating:</b> {{ user.rating|round(2) }} <br> <b>Number of ratings</b>: {{user.numberOfRatings}}</p><div>
+   			 <p> <b>Buy alerts:</b> {{user.buyAlert}}<br>
+    		<b>Sell alerts:</b> {{user.sellAlert}}</p>
+   			<div class = "listing"><p><b>About Me:</b> {{user.description}}</b></p></div>
+   			{% if user.nickname == loginUser.nickname %}
+    			<p><a href = "{{url_for('editProfile')}}" class = "btn btn-default">Edit Your Profile and Alerts</a></p>
+    		{% endif %}{%endblock%}
+  		</div>
+	</div>
+    
