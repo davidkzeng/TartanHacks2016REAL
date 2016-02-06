@@ -2,15 +2,21 @@ import os
 
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask.ext.mail import Message
 from sqlalchemy import desc
-from app import app, db, lm
-from config import EXAMPLE_IMPORT
+from app import app, db, lm, mail
+from config import EXAMPLE_IMPORT, ADMINS
 from forms import *
 from models import User, Listing
 
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
 def index():
+	'''
+	msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=['davidflasktest@gmail.com'])
+	msg.body = "This is the email body"
+	mail.send(msg)
+	'''
 	return render_template('index.html',testvar = "lol this is a test")
 	
 @app.route('/login',methods = ['GET','POST'])
