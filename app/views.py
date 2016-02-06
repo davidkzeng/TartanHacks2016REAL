@@ -91,6 +91,7 @@ def editProfile():
 		g.user.description = form.description.data
 		db.session.add(g.user)
     	db.session.commit()
+    	return redirect(url_for('profile'))
 	return render_template('editprofile.html', form = form, user = g.user)
 
 
@@ -107,9 +108,20 @@ def rate(rateduser):
 	return render_template('ratingform.html', form = form, rateduser = rateduser)
 
 
-@app.route('/listings')
+@app.route('/listings',methods=['GET','POST'])
 @login_required
 def listings():
 	allListings = Listing.query.all()
 	form = ListingForm()
+	if(form.validate_on_submit()):
+		newList = Listing(details = form.details.data, location = form.location.data,
+		 exchangerate = form.exchangerate.data)
+		if(form.buyorsell.data == 'Buy'):
+			newList.buysell = True
+		else:
+			newList.buysell = False
+		newList.user = g.user
+		db.session.add(newList)
+		db.session.commit()
+		return redirect(url_for('listings'))
 	return render_template("listings.html",title ='Listings',form = form,lists=allListings,user=g.user)

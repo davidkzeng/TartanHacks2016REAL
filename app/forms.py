@@ -31,5 +31,5 @@ class RatingForm(Form):
 class ListingForm(Form):
 	details = StringField('det')
 	location = StringField('loc')
-	timeAvail = StringField('time')
+	exchangerate = StringField('exchange')
 	buyorsell = SelectField('rating', choices=[('Buy', 'Buy'), ('Sell','Sell')])
