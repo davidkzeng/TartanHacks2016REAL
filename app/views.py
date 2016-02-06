@@ -14,6 +14,7 @@ import json
 from datetime import datetime, timedelta
 import pygal
 from pygal.style import TurquoiseStyle	
+from random import randrange
 
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
@@ -206,12 +207,14 @@ def success():
 	return render_template("success.html")
 
 def getPastTransactions(blockDinex):
-	pastListings = Listing.query.filter_by(blockOrDinex = blockDinex).filter_by(active = False).all()
+	pastListings = Listing.query.filter_by(blockOrDinex = blockDinex).filter_by(active = False)
+	pastListings = pastListings.order_by(desc(Listing.timestamp)).limit(10).all()
 	return pastListings
 
 @app.route('/priceHistory')
 def priceHistory():
 	blockHistory = getPastTransactions("Block")
+	blockHistory = blockHistory[::-1]
 	blockHistoryTimes = [x.timestamp for x in blockHistory]
 	blockPrices = [x.price for x in blockHistory]
 	date_chart = pygal.Line(x_label_rotation=20,style = TurquoiseStyle,x_title = "Time Sold",
@@ -220,10 +223,11 @@ def priceHistory():
 	date_chart.add("Blocks",blockPrices)
 
 	dinexHistory = getPastTransactions("Dinex")
+	dinexHistory = dinexHistory[::-1]
 	dinexHistoryTimes = [x.timestamp for x in dinexHistory]
 	dinexPrices = [x.price for x in dinexHistory]
 	date_chart_dinex = pygal.Line(x_label_rotation=20,style = TurquoiseStyle,x_title = "Time Sold",
-		y_title = "Price per Dinex",height = 400)
+		y_title = "Price per Dinex", height = 400)
 	date_chart_dinex.x_labels = map(lambda d: d.strftime('%Y-%m-%d %H:%M'), dinexHistoryTimes)
 	date_chart_dinex.add("Dinex",dinexPrices)
 	return render_template('pricehistory.html',price_chart = date_chart, price_chart2 = date_chart_dinex)
@@ -265,5 +269,16 @@ def update(stringSet, change):
 def display(setting, check):
 	return check in setting
 
+@app.route('/createdata')
 def createSomeData():
-	return true
+	for i in range (10):
+		newList = Listing(blockOrDinex = "Block", timestamp = datetime.now(), price = float(randrange(40,70,5))/10, 
+			details = "", location = 'University Center', active = False)
+		db.session.add(newList)
+		db.session.commit()
+	for j in range (10):
+		newList = Listing(blockOrDinex = "Dinex", timestamp = datetime.now(), price = float(randrange(50,90,5))/100, 
+			details = "", location = 'University Center', active = False)
+		db.session.add(newList)
+		db.session.commit()
+	return redirect(url_for('priceHistory'))
