@@ -2,15 +2,21 @@ import os
 
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask.ext.mail import Message
 from sqlalchemy import desc
-from app import app, db, lm
-from config import EXAMPLE_IMPORT
+from app import app, db, lm, mail
+from config import EXAMPLE_IMPORT, ADMINS
 from forms import *
 from models import User, Listing
 
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
 def index():
+	'''
+	msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=['davidflasktest@gmail.com'])
+	msg.body = "This is the email body"
+	mail.send(msg)
+	'''
 	return render_template('index.html',testvar = "lol this is a test")
 	
 @app.route('/login',methods = ['GET','POST'])
@@ -51,7 +57,7 @@ def try_register(name,pw,email):
 	if not user is None:
 		flash('Email in Use')
 		return redirect(url_for('register'))
-	nickname = name
+	nickname = name.strip()
 	nickname = User.make_unique_nickname(nickname)
 	password = pw
 	user = User(nickname = nickname, password = password, email = email, rating = 0.0)
@@ -120,7 +126,7 @@ def rate(rateduser):
 @app.route('/listings/<setting>',methods=['GET','POST'])
 @login_required
 def listings(setting = "aaa"):
-	allListingsQuery = Listing.query
+	allListingsQuery = Listing.query.filter_by(active = True)
 	if "b" in setting:
 		allListingsQuery = allListingsQuery.filter_by(buysell = True)
 	if "s" in setting:
@@ -136,7 +142,7 @@ def listings(setting = "aaa"):
 	allListings = allListingsQuery.all()
 	form = ListingForm()
 	if(form.validate_on_submit()):
-		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = float(form.price.data), details = form.details.data, location = form.location.data)
+		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = float(form.price.data), details = form.details.data, location = form.location.data, active = True)
 		if form.buysell.data == 'Buy':
 			newList.buysell = True
 		else:
@@ -156,7 +162,10 @@ def transaction(postid):
 	poster = User.query.filter_by(id=post.user_id).first()
 	form = TransactionForm()
 	if(form.validate_on_submit()):
-		pass	
+		post.active = False
+		db.session.add(post)
+		db.session.commit()
+		return redirect(url_for('listings'))
 	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
 
 def update(stringSet, change):

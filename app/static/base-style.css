@@ -32,3 +32,11 @@
 .buttonblock {
 	display: inline-block;
 }
+
+.registerbutton {
+	margin-top: 1em;
+}
+
+.pagehead {
+	margin-left: 0.25em;
+}
