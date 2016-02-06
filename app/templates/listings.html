@@ -2,12 +2,15 @@
 {% block content %}
   <h1>{{ user.nickname }}!</h1>
    {% for list in lists %} 
-    <p>
-    	<div> Name: {{ list.author.nickname }}</div>
-    	<div class = "listing">Description: {{list.description}}</div>
-    	<div class = "location">Location: {{list.location}}</div>
-    	<div class = "time-avail"> Time Available: {{list.timeAvail}}</div>
-    </p>
+    <div> {{ list.user.nickname }}</div>
+    {% if list.buysell %}
+    	<p> BUYING </p>
+    {% else %}
+    	<p> SELLING </p>
+    {% endif %}
+    <div class = "listing"><p> Description: {{list.details}}</b></p></div>
+    <div class = "location"><p> Location: {{list.location}}</p></div>
+    <div class = "time-avail"><p> Exchange Rate: {{list.exchangerate}}</p></div>
     {% endfor %}
 	<form action="" method="post" name="login">
       {{ form.hidden_tag() }}

@@ -1,5 +1,6 @@
 from app import db
 from flask import url_for
+import datetime
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +11,7 @@ class User(db.Model):
     profileName = db.Column(db.String(64))
     rating = db.Column(db.Integer)
     listing = db.Column(db.String(140))
+    listings = db.relationship('Listing', backref='user', lazy='dynamic')
 
     @property
     def is_authenticated(self):
@@ -35,3 +37,16 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)
+
+class Listing(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    timestamp = db.Column(db.DateTime)
+    exchangerate = db.Column(db.Float)
+    buysell = db.Column(db.Boolean)
+    details = db.Column(db.String(140))
+    location = db.Column(db.String(140))
+
+    def __repr__(self):
+        return '<Post %r>' % (self.body)
+
