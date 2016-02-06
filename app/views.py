@@ -92,3 +92,29 @@ def editProfile():
 		db.session.add(g.user)
     	db.session.commit()
 	return render_template('editprofile.html', form = form, user = g.user)
+
+@app.route('/listings')
+def listings():
+	lists = [
+		{
+			'user' : {'nickname : George'}
+			'description' : '1 block'
+			'location' : 'UC'
+			'timeAvail' : '1-3'
+
+		}
+		{
+			'user' : {'nickname : Bob'}
+			'description' : '1 block'
+			'location' : 'Resnik'
+			'timeAvail' : '2-4'
+
+		}
+		{
+			'user' : {'nickname : David'}
+			'description' : '1 block'
+			'location' : 'Exchange'
+			'timeAvail' : '3-6'
+		}
+	]
+	return render_template("listings.html",title ='Listings',lists=lists)
