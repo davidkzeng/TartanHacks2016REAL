@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>{{ user.nickname }}!</h1>
- <div class="dropdown">
+ <div class="dropdown buttonblock">
    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Sort By <span class="caret"></span>
     </button>
@@ -9,6 +9,17 @@
     <li><a href="#">Username</a></li>
     <li><a href="#">Exchange Rate (Ascending)</a></li>
     <li><a href="#">Exchange Rate (Descending)</a></li>
+  </ul>
+    </div>
+     <div class="dropdown buttonblock">
+   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Filter By <span class="caret"></span>
+    </button>
+  <ul class="dropdown-menu">
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'b'))}}">Search Buyers</a></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'s'))}}">Search Sellers</a></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'l'))}}">Blocks</a></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'d'))}}">Dinex</a></li>
   </ul>
     </div>
    {% for list in lists %} 

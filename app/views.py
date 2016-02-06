@@ -117,9 +117,19 @@ def rate(rateduser):
 
 
 @app.route('/listings',methods=['GET','POST'])
+@app.route('/listings/<setting>',methods=['GET','POST'])
 @login_required
-def listings():
-	allListings = Listing.query.all()
+def listings(setting = "aa"):
+	allListingsQuery = Listing.query
+	if "b" in setting:
+		allListingsQuery = allListingsQuery.filter_by(buysell = True)
+	if "s" in setting:
+		allListingsQuery = allListingsQuery.filter_by(buysell = False)
+	if "l" in setting:
+		allListingsQuery = allListingsQuery.filter_by(blockOrDinex = "Block")
+	if "d" in setting:
+		allListingsQuery = allListingsQuery.filter_by(blockOrDinex = "Dinex")
+	allListings = allListingsQuery.all()
 	form = ListingForm()
 	if(form.validate_on_submit()):
 		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = form.price.data, details = form.details.data, location = form.location.data)
@@ -131,5 +141,29 @@ def listings():
 		db.session.add(newList)
 		db.session.commit()
 		return redirect(url_for('listings'))
-	return render_template("listings.html",title ='Listings',form = form,lists=allListings,user=g.user)
+	return render_template("listings.html",title ='Listings',form = form,lists=allListings,
+		user=g.user,set = setting, updateFunc = update)
 
+def update(stringSet, change):
+	setting = list(stringSet)
+	if change == 'b':
+		if setting[0] == 'b':
+			setting[0] = 'a'
+		else:
+			setting[0] = 'b'
+	if change == 's':
+		if setting[0] == 's':
+			setting[0] = 'a'
+		else:
+			setting[0] = 's'
+	if change == 'l':
+		if setting[1] == 'l':
+			setting[1] = 'a'
+		else:
+			setting[1] = 'l'
+	if change == 'd':
+		if setting[1] == 'd':
+			setting[1] = 'a'
+		else:
+			setting[1] = 'd'
+	return "".join(setting)
