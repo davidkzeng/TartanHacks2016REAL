@@ -5,6 +5,6 @@
 
 <p>Here you can arrange meetings to buy and sell meal blocks or Dinex from the CMU Dining Plan.</p>
 {% if g.user.is_anonymous %}
-<p><a href = "{{url_for('register')}}" class = "btn btn-default">Register a new account</a> or <a href = "{{url_for('login')}}" class = "btn btn-default">Sign in</a> with an existing account.	</p>
+<p><a href = "{{url_for('register')}}" class = "btn btn-info">Register a new account</a> or <a href = "{{url_for('login')}}" class = "btn btn-info">Sign in</a> with an existing account.	</p>
 {% endif %}
 {% endblock %}

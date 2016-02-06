@@ -27,14 +27,19 @@
 
 .dropdown {
 	margin-left: 0.25em;
+	background-color:#BFEFFF;
 }
 
 .buttonblock {
 	display: inline-block;
 }
+.btn-default{
+	background-color:#BFEFFF;
+}
 
 .registerbutton {
 	margin-top: 1em;
+	background-color:#BFEFFF;
 }
 
 .pagehead {

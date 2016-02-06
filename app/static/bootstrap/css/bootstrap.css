@@ -10,10 +10,6 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
-div {
-    width: 50px;
-    word-wrap: break-word;
-}
 
 body {
   margin: 0;
@@ -3067,7 +3063,7 @@ fieldset[disabled] a.btn {
 }
 .btn-default {
   color: #333;
-  background-color: #fff;
+  background-color: #BFEFFF;;
   border-color: #ccc;
 }
 .btn-default:focus,
