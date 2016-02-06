@@ -12,11 +12,6 @@ from models import User, Listing
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
 def index():
-	'''
-	msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=['davidflasktest@gmail.com'])
-	msg.body = "This is the email body"
-	mail.send(msg)
-	'''
 	return render_template('index.html',testvar = "lol this is a test")
 	
 @app.route('/login',methods = ['GET','POST'])
@@ -165,6 +160,17 @@ def transaction(postid):
 		post.active = False
 		db.session.add(post)
 		db.session.commit()
+		msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=[poster.email])
+		msg.body = "Hello " + poster.nickname + ", \n" + "Your listing on CMUDiningMarket has found a match. The user "
+		msg.body += str(g.user.nickname) + " has accepted your offer. The terms of the agreement are: \n" 
+		msg.body += "Location: " + post.location + "\n" + "You will "
+		if post.buysell:
+			msg.body += "buy "
+		else:
+			msg.body += "sell "
+		msg.body += "one " post.blockOrDinex
+		msg.body += " per $" + str(post.price)  
+		mail.send(msg)
 		return redirect(url_for('listings'))
 	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
 
