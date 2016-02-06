@@ -21,3 +21,7 @@ class RegisterForm(Form):
 			self.nickname.errors.append('Nickname taken. Choose another one')
 			return False
 		return True
+
+class ProfileForm(Form):
+	description = StringField('desc')
+	

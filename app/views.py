@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
 from config import EXAMPLE_IMPORT
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, ProfileForm
 from models import User
 
 @app.route('/',methods = ['GET','POST'])
@@ -51,7 +51,7 @@ def try_register(name,pw,email):
 	if not user is None:
 		flash('Email in Use')
 		return redirect(url_for('register'))
-	nickname = name
+	nickname = namex
 	nickname = User.make_unique_nickname(nickname)
 	password = pw
 	user = User(nickname = nickname, password = password, email = email)
@@ -77,3 +77,18 @@ def before_request():
     if g.user.is_authenticated:
     	db.session.add(g.user)
     	db.session.commit()
+
+@app.route('/profile')
+@login_required
+def profile():
+	return render_template('profile.html', user = g.user)
+
+@app.route('/editprofile',methods = ['GET','POST'])
+@login_required
+def editProfile():
+	form = ProfileForm()
+	if(form.validate_on_submit()):
+		g.user.description = form.description.data
+		db.session.add(g.user)
+    	db.session.commit()
+	return render_template('editprofile.html', form = form, user = g.user)

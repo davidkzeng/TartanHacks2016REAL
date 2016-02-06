@@ -13,7 +13,11 @@
     <meta name = "viewport" content = "width = device-width,initial-scale=1">
     <meta charset = "utf-8">
   <body>
-  	<p> Hi Bobby </p>
+    <ul class="nav nav-tabs">
+      <li role="presentation"><a href="{{url_for('index')}}">Home</a></li>
+      <li role="presentation"><a href="{{url_for('profile')}}">Profile</a></li>
+      <li role="presentation"><a href="{{url_for('logout')}}">Logout</a></li>
+    </ul>
     {% block content %}{% endblock %}
     <script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
   </body>
