@@ -83,17 +83,16 @@ def before_request():
 def profile():
 	return render_template('profile.html', user = g.user)
 
-@app.route('/editprofile',methods = ['GET','POST'])
+@app.route('/editprofile', methods = ['GET','POST'])
 @login_required
 def editProfile():
 	form = ProfileForm()
-	if(form.validate_on_submit()):
+	if (form.validate_on_submit()):
 		g.user.description = form.description.data
 		db.session.add(g.user)
-    	db.session.commit()
-    	return redirect(url_for('profile'))
+		db.session.commit()
+		return redirect(url_for('profile'))
 	return render_template('editprofile.html', form = form, user = g.user)
-
 
 @app.route('/rate/<rateduser>',methods=['GET','POST'])
 @login_required
