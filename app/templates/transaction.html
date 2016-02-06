@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>You are viewing a listing from {{poster.nickname}}.</h1>
+    <p> Location: {{post.location}}</p>
+    <p> 1 {{post.blockOrDinex}} for $ {{post.price}} each </p>
+    <p> Details: {{post.details}}</p>
+ 	<form action="" method="post" name="rating">
+      {{ form.hidden_tag() }}
+      {{form.confirm}} I agree to this transaction
+      <p><input type="submit" value="Submit"></p>
+  </form>
+{% endblock %}
