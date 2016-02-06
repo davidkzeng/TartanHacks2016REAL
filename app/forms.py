@@ -36,6 +36,6 @@ class ListingForm(Form):
 	details = StringField('details')
 
 class TransactionForm(Form):
-	confirm = BooleanField('confirm', default = False)
+	confirm = BooleanField('confirm', default = False, validators= [DataRequired()])
 
 

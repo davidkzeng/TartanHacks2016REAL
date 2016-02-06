@@ -48,6 +48,7 @@ class Listing(db.Model):
     price = db.Column(db.Float)
     location = db.Column(db.String(50))
     details = db.Column(db.String(140))
+    active = db.Column(db.Boolean)
 
     def __repr__(self):
         return '<Post %r>' % (self.body)
