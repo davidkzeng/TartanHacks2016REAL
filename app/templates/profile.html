@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>{{ user.name }}!</h1>
+    <h1>{{ user.nickname }}!</h1>
     <div class = "rating"><p> Rating: {{ user.rating }} </p><div>
-    <div class = "listing"><p> {{user.name}} is {{user.listing}}</b></p></div>
+    <div class = "listing"><p> {{user.nickname}} is {{user.description}}</b></p></div>
 {% endblock %}

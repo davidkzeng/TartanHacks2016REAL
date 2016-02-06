@@ -6,8 +6,10 @@ class User(db.Model):
     nickname = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(64), index = True)
     email = db.Column(db.String(120), index=True)
-    about_me = db.Column(db.String(140))
+    description = db.Column(db.String(140))
     profileName = db.Column(db.String(64))
+    rating = db.Column(db.Integer)
+    listing = db.Column(db.String(140))
 
     @property
     def is_authenticated(self):
