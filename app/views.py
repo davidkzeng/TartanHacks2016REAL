@@ -121,7 +121,7 @@ def rate(rateduser):
 @app.route('/listings/<setting>',methods=['GET','POST'])
 @login_required
 def listings(setting = "aaa"):
-	allListingsQuery = Listing.query
+	allListingsQuery = Listing.query.filter_by(active = True)
 	if "b" in setting:
 		allListingsQuery = allListingsQuery.filter_by(buysell = True)
 	if "s" in setting:
@@ -137,7 +137,7 @@ def listings(setting = "aaa"):
 	allListings = allListingsQuery.all()
 	form = ListingForm()
 	if(form.validate_on_submit()):
-		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = float(form.price.data), details = form.details.data, location = form.location.data)
+		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = float(form.price.data), details = form.details.data, location = form.location.data, active = True)
 		if form.buysell.data == 'Buy':
 			newList.buysell = True
 		else:
@@ -157,7 +157,10 @@ def transaction(postid):
 	poster = User.query.filter_by(id=post.user_id).first()
 	form = TransactionForm()
 	if(form.validate_on_submit()):
-		pass	
+		post.active = False
+		db.session.add(post)
+		db.session.commit()
+		return redirect(url_for('listings'))
 	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
 
 def update(stringSet, change):
