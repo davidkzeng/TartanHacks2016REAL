@@ -11,7 +11,7 @@
       [x]
       {% endif %}Exchange Rate (Ascending)</a></li>
      <li><a href="{{url_for('listings', setting = updateFunc(set,'g'))}}">
-      {% if 'u' in set %}
+      {% if 'g' in set %}
       [x]
       {% endif %}Exchange Rate (Descending)</a></li>
   </ul>
@@ -68,12 +68,12 @@
 		{{form.hidden_tag()}}
 
       <div class = "form-group">
-        <label class="col-sm-2 control-label">Buy or sell</label>
+        <label class="col-sm-10 control-label">Buy or sell</label>
           {{form.buysell(placeholder="Buy or Sell",class="form-control")}}
       </div><br>
 
       <div class = "form-group">
-        <label class="col-sm-2 control-label">Block or Dinex</label>
+        <label class="col-sm-10 control-label">Block or Dinex</label>
           {{form.blockOrDinex(placeholder="Block or Dinex",class="form-control")}}
       </div><br>
 
