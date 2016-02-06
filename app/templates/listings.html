@@ -6,9 +6,14 @@
       Sort By <span class="caret"></span>
     </button>
   <ul class="dropdown-menu">
-    <li><a href="#">Username</a></li>
-    <li><a href="#">Exchange Rate (Ascending)</a></li>
-    <li><a href="#">Exchange Rate (Descending)</a></li>
+     <li><a href="{{url_for('listings', setting = updateFunc(set,'u'))}}">
+      {% if 'u' in set %}
+      [x]
+      {% endif %}Exchange Rate (Ascending)</a></li>
+     <li><a href="{{url_for('listings', setting = updateFunc(set,'g'))}}">
+      {% if 'u' in set %}
+      [x]
+      {% endif %}Exchange Rate (Descending)</a></li>
   </ul>
     </div>
      <div class="dropdown buttonblock">
@@ -16,10 +21,24 @@
       Filter By <span class="caret"></span>
     </button>
   <ul class="dropdown-menu">
-    <li><a href="{{url_for('listings', setting = updateFunc(set,'b'))}}">Search Buyers</a></li>
-    <li><a href="{{url_for('listings', setting = updateFunc(set,'s'))}}">Search Sellers</a></li>
-    <li><a href="{{url_for('listings', setting = updateFunc(set,'l'))}}">Blocks</a></li>
-    <li><a href="{{url_for('listings', setting = updateFunc(set,'d'))}}">Dinex</a></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'b'))}}">
+      {% if 'b' in set %}
+      [x]
+      {% endif %}
+      Search Buyers</a></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'s'))}}">
+      {% if 's' in set %}
+      [x]
+      {% endif %}Search Sellers</a></li>
+          <li role="separator" class="divider"></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'l'))}}">
+        {% if 'l' in set %}
+      [x]
+      {% endif %}Blocks</a></li>
+    <li><a href="{{url_for('listings', setting = updateFunc(set,'d'))}}">
+      {% if 'd' in set %}
+      [x]
+      {% endif %}Dinex</a></li>
   </ul>
     </div>
    {% for list in lists %} 
