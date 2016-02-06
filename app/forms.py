@@ -27,3 +27,8 @@ class ProfileForm(Form):
 
 class RatingForm(Form):
 	rating = SelectField('rating', choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
+
+class Listingform(Form):
+	description = StringField('desc')
+	location = StringField('loc')
+	timeAvail = StringField('time')
