@@ -122,9 +122,8 @@ def listings():
 	allListings = Listing.query.all()
 	form = ListingForm()
 	if(form.validate_on_submit()):
-		newList = Listing(details = form.details.data, location = form.location.data,
-		 exchangerate = form.exchangerate.data)
-		if(form.buyorsell.data == 'Buy'):
+		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = form.price.data, details = form.details.data, location = form.location.data)
+		if form.buysell.data == 'Buy':
 			newList.buysell = True
 		else:
 			newList.buysell = False
