@@ -1,26 +1,86 @@
 <!DOCTYPE html>
-<html>
-  <head>
-  	{% if title %}
-  	<title>{{title}} - TartanHacks</title>
-  	{% else %}
-    <title>Dinex Market</title>
-    {% endif %}
-    <!--link rel = "stylesheet" type = "text/css" href = "{{url_for('static',filename = 'base-style-pure.css')}}"-->
-    <link rel = "stylesheet" type = "text/css" href = "{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}">
-    <link rel = "stylesheet" type = "text/css" href = "{{url_for('static',filename='base-style.css')}}">
-    <link rel = "stylesheet" type = "text/css" href = "{{url_for('static', filename ='pure/pure-min.css')}}">
-    <meta name = "viewport" content = "width = device-width,initial-scale=1">
-    <meta charset = "utf-8">
-  <body>
-    <ul class="nav nav-tabs">
-      <li role="presentation"><a href="{{url_for('index')}}">Home</a></li>
-      <li role="presentation"><a href="{{url_for('profile')}}">Profile</a></li>
-      <li role="presentation"><a href="{{url_for('listings')}}">Listings</a></li>
-      <li role="presentation"><a href="{{url_for('logout')}}">Logout</a></li>
-    </ul>
-    {% block content %}{% endblock %}
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{url_for('static',filename='bootstrap/css/simple-sidebar.css')}}" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Market
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url_for('index')}}">Home</a>
+                </li>
+                <li>
+                    <a href="{{url_for('profile')}}">Profile</a>
+                </li>
+                <li>
+                    <a href="{{url_for('listings')}}">Listings</a>
+                </li>
+                <li>
+                    <a href="{{url_for('logout')}}">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
     <script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
     <script type=text/javascript src="{{url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
   </body>
 </html>
