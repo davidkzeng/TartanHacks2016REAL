@@ -12,11 +12,6 @@ from models import User, Listing
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
 def index():
-	'''
-	msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=['davidflasktest@gmail.com'])
-	msg.body = "This is the email body"
-	mail.send(msg)
-	'''
 	return render_template('index.html',testvar = "lol this is a test")
 	
 @app.route('/login',methods = ['GET','POST'])
@@ -165,6 +160,12 @@ def transaction(postid):
 		post.active = False
 		db.session.add(post)
 		db.session.commit()
+		msg = Message('Hello',sender='davidflasktest@gmail.com',recipients=[poster.email])
+		msg.body = "Hello " + poster.nickname + "\n" + "Congratulations! Your listing has found a match. The User "
+		+ g.user.nickname + " has accepted your generous offer. The terms of the agreement are as follows \n" 
+		+ "Location: " + post.location + "\n"
+		+ "You will buy money" 
+		mail.send(msg)
 		return redirect(url_for('listings'))
 	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
 
