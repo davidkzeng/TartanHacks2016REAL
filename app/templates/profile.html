@@ -8,6 +8,25 @@
    			<div class = "rating" style="Font-size:17px"><p> <b>Rating:</b> {{ user.rating|round(2) }} / 5.0 <br> <b>Number of ratings</b>: {{user.numberOfRatings}}</p><div>
    			 <p> <b>Buy alerts:</b> {% if user.buyAlert == True %}On{% else %}Off{% endif %}<br>
     		<b>Sell alerts:</b> {% if user.sellAlert == True %}On{% else %}Off{% endif %}</p>
+    {% for listing in user.listings %} 
+   <div class = "l-box">
+    <div class = "highlight">
+    {% if listing.buysell %}
+         <b>BOUGHT</b>
+    {% else %}
+        <b>SOLD </b>
+    {% endif %}
+   </div>
+    <div class = "leftspace">
+   </div>
+    <div class = "pure-g">
+    <div class = "pure-u-1-5 text-center"><p style = "font-size: 14px;"> Bought/Sold on: {{listing.timestamp}}</p></div>    
+    <div class = "pure-u-1-5 text-center"><p style = "font-size: 14px;"> Location: {{listing.location}}</p></div>
+    <div class = "pure-u-1-5 text-center"><p style = "font-size: 14px;"> {{listing.blockOrDinex}} at $ {{listing.price}} each</p></div>
+    <div class = "pure-u-1-5 text-center"><p style = "font-size: 14px;"> Details: {{listing.details}}</p></div>
+    </div>
+    </div>
+    {% endfor %}
    			<div class = "listing"><p><b>About Me:</b> {{user.description}}</b></p></div>
    			{% if user.nickname == loginUser.nickname %}
     			<p><a href = "{{url_for('editProfile')}}" class = "btn btn-info">Edit Your Profile and Alerts</a></p>

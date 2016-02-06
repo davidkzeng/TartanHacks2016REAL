@@ -44,3 +44,7 @@
 .pagehead {
 	margin-left: 0.25em;
 }
+
+.textcenter p {
+	font-size: 8px;
+}
