@@ -101,7 +101,12 @@ def rate(rateduser):
 	user = User.query.filter_by(nickname=rateduser).first()
 	form = RatingForm()
 	if(form.validate_on_submit()):
-		user.rating = form.rating.data
+		if user.rating == None:
+			user.rating = form.rating.data
+			user.numberOfRatings = 1
+		else:
+			user.rating = float(user.rating * user.numberOfRatings + float(form.rating.data)) / (user.numberOfRatings + 1)
+			user.numberOfRatings += 1
 		db.session.add(g.user)
 		db.session.commit()
 		return redirect(url_for('index'))
@@ -125,3 +130,4 @@ def listings():
 		db.session.commit()
 		return redirect(url_for('listings'))
 	return render_template("listings.html",title ='Listings',form = form,lists=allListings,user=g.user)
+
