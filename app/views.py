@@ -79,9 +79,11 @@ def before_request():
     	db.session.commit()
 
 @app.route('/profile')
+@app.route('/profile/<nickname>')
 @login_required
-def profile():
-	return render_template('profile.html', user = g.user)
+def profile(nickname):
+	nickUser = User.query.filter_by(nickname=nickname).first()
+	return render_template('profile.html', user = nickUser, loginUser = g.user)
 
 @app.route('/editprofile', methods = ['GET','POST'])
 @login_required

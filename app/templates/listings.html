@@ -2,7 +2,7 @@
 {% block content %}
   <h1>{{ user.nickname }}!</h1>
    {% for list in lists %} 
-    <div> {{ list.user.nickname }}</div>
+    <div> <a href = "{{url_for('profile')}}/{{ list.user.nickname }}">{{list.user.nickname}}</a></div>
     {% if list.buysell %}
     	<p> BUYING </p>
     {% else %}
