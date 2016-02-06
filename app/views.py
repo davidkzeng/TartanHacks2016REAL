@@ -148,6 +148,17 @@ def listings(setting = "aaa"):
 	return render_template("listings.html",title ='Listings',form = form,lists=allListings,
 		user=g.user,set = setting, updateFunc = update)
 
+
+@app.route('/transaction/<int:postid>', methods=['GET','POST'])
+@login_required
+def transaction(postid):
+	post = Listing.query.filter_by(id = postid).first()
+	poster = User.query.filter_by(id=post.user_id).first()
+	form = TransactionForm()
+	if(form.validate_on_submit()):
+		pass	
+	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
+
 def update(stringSet, change):
 	setting = list(stringSet)
 	if change == 'b':
@@ -184,3 +195,4 @@ def update(stringSet, change):
 
 def display(setting, check):
 	return check in setting
+

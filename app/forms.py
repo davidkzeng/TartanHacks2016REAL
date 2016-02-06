@@ -35,4 +35,7 @@ class ListingForm(Form):
 	location = SelectField('rating', choices=[('University Center', 'University Center'), ('Resnik','Resnik'), ('Exchange','Exchange'),('Newell-Simon','Newell-Simon'),('Underground','Underground'),('Other (location in details)', 'Other (location in details)'), ('Any', 'Any')])
 	details = StringField('details')
 
+class TransactionForm(Form):
+	confirm = BooleanField('confirm', default = False)
+
 
