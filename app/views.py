@@ -111,4 +111,5 @@ def rate(rateduser):
 @login_required
 def listings():
 	allListings = Listing.query.all()
-	return render_template("listings.html",title ='Listings',lists=allListings,user=g.user)
+	form = ListingForm()
+	return render_template("listings.html",title ='Listings',form = form,lists=allListings,user=g.user)
