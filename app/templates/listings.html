@@ -66,9 +66,11 @@
     <div class = "pure-u-1-5 text-center"><p> Location: {{list.location}}</p></div>
     <div class = "pure-u-1-5 text-center"><p> {{list.blockOrDinex}} at $ {{list.price}} each</p></div>
     <div class = "pure-u-1-5 text-center"><p> Details: {{list.details}}</p></div>
+    {% if user.nickname != list.user.nickname %}
     <div class = "pure-u-1-5 text-center"><p><a href="{{ url_for('.transaction', postid=list.id) }}">
     I'm interested</a></p></div>
-      </div>
+    {% endif %}
+    </div>
     </div>
     {% endfor %}
   </div>

@@ -11,7 +11,7 @@
    			<div class = "listing"><p><b>About Me:</b> {{user.description}}</b></p></div>
    			{% if user.nickname == loginUser.nickname %}
     			<p><a href = "{{url_for('editProfile')}}" class = "btn btn-info">Edit Your Profile and Alerts</a></p>
-    		{% endif %}{%endblock%}
+    		{% endif %}
   		</div>
 	</div>
-    
+{%endblock%}    
