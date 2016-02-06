@@ -26,3 +26,7 @@
 .dropdown {
 	margin-left: 0.25em;
 }
+
+.buttonblock {
+	display: inline-block;
+}

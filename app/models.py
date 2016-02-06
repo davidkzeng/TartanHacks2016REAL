@@ -45,7 +45,7 @@ class Listing(db.Model):
     timestamp = db.Column(db.DateTime)
     buysell = db.Column(db.Boolean)
     blockOrDinex = db.Column(db.String)
-    price = db.Column(db.String)
+    price = db.Column(db.Float)
     location = db.Column(db.String(50))
     details = db.Column(db.String(140))
 

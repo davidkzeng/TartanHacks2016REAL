@@ -2,6 +2,7 @@ import os
 
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
+from sqlalchemy import desc
 from app import app, db, lm
 from config import EXAMPLE_IMPORT
 from forms import *
@@ -117,12 +118,26 @@ def rate(rateduser):
 
 
 @app.route('/listings',methods=['GET','POST'])
+@app.route('/listings/<setting>',methods=['GET','POST'])
 @login_required
-def listings():
-	allListings = Listing.query.all()
+def listings(setting = "aaa"):
+	allListingsQuery = Listing.query
+	if "b" in setting:
+		allListingsQuery = allListingsQuery.filter_by(buysell = True)
+	if "s" in setting:
+		allListingsQuery = allListingsQuery.filter_by(buysell = False)
+	if "l" in setting:
+		allListingsQuery = allListingsQuery.filter_by(blockOrDinex = "Block")
+	if "d" in setting:
+		allListingsQuery = allListingsQuery.filter_by(blockOrDinex = "Dinex")
+	if "u" in setting:
+		allListingsQuery = allListingsQuery.order_by(Listing.price)
+	if "g" in setting:
+		allListingsQuery = allListingsQuery.order_by(desc(Listing.price))
+	allListings = allListingsQuery.all()
 	form = ListingForm()
 	if(form.validate_on_submit()):
-		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = form.price.data, details = form.details.data, location = form.location.data)
+		newList = Listing(blockOrDinex = form.blockOrDinex.data, price = float(form.price.data), details = form.details.data, location = form.location.data)
 		if form.buysell.data == 'Buy':
 			newList.buysell = True
 		else:
@@ -131,7 +146,9 @@ def listings():
 		db.session.add(newList)
 		db.session.commit()
 		return redirect(url_for('listings'))
-	return render_template("listings.html",title ='Listings',form = form,lists=allListings,user=g.user)
+	return render_template("listings.html",title ='Listings',form = form,lists=allListings,
+		user=g.user,set = setting, updateFunc = update)
+
 
 @app.route('/transaction/<int:postid>', methods=['GET','POST'])
 @login_required
@@ -142,3 +159,41 @@ def transaction(postid):
 	if(form.validate_on_submit()):
 		pass	
 	return render_template("transaction.html", title = "Transaction", form = form, post = post, poster = poster)
+
+def update(stringSet, change):
+	setting = list(stringSet)
+	if change == 'b':
+		if setting[0] == 'b':
+			setting[0] = 'a'
+		else:
+			setting[0] = 'b'
+	if change == 's':
+		if setting[0] == 's':
+			setting[0] = 'a'
+		else:
+			setting[0] = 's'
+	if change == 'l':
+		if setting[1] == 'l':
+			setting[1] = 'a'
+		else:
+			setting[1] = 'l'
+	if change == 'd':
+		if setting[1] == 'd':
+			setting[1] = 'a'
+		else:
+			setting[1] = 'd'
+	if change == 'u':
+		if setting[2] == 'u':
+			setting[2] = 'a'
+		else:
+			setting[2] = 'u'
+	if change == 'g':
+		if setting[2] == 'g':
+			setting[2] = 'a'
+		else:
+			setting[2] = 'g'
+	return "".join(setting)
+
+def display(setting, check):
+	return check in setting
+
