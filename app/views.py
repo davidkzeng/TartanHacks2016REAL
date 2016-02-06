@@ -14,7 +14,8 @@ import datetime
 @app.route('/',methods = ['GET','POST'])
 @app.route('/index',methods = ['GET','POST'])
 def index():
-	return render_template('index.html',testvar = "lol this is a test")
+	print g.user
+	return render_template('index.html')
 	
 @app.route('/login',methods = ['GET','POST'])
 def login():
@@ -93,7 +94,7 @@ def profile(nickname = ""):
 @app.route('/editprofile', methods = ['GET','POST'])
 @login_required
 def editProfile():
-	form = ProfileForm()
+	form = ProfileForm(description = g.user.description)
 	if (form.validate_on_submit()):
 		g.user.description = form.description.data
 		g.user.buyAlert = form.buyAlert.data
