@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h3 style="Font-size:30px"> Price History </h3>
-<p><i>Time to invest in Dinex futures</i></p>
-{{ price_chart.render()|safe }}
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title" style="Font-size:30px">Price History</h3>
+  </div>
+  <div class="panel-body">
+    <p><i>Time to invest in Dinex futures</i></p>
+	{{ price_chart.render()|safe }}
+  </div>
+</div>
+
 {% endblock %}
 
