@@ -205,28 +205,28 @@ def transaction(postid):
 def success():
 	return render_template("success.html")
 
-def getPastTransactions():
-	pastListings = Listing.query.filter_by(active = False).all()
+def getPastTransactions(blockDinex):
+	pastListings = Listing.query.filter_by(blockOrDinex = blockDinex).filter_by(active = False).all()
 	return pastListings
 
 @app.route('/priceHistory')
 def priceHistory():
-	blockHistory = getPastTransactions()
+	blockHistory = getPastTransactions("Block")
 	blockHistoryTimes = [x.timestamp for x in blockHistory]
-	blockPrices = [x.price if x.blockOrDinex == "Block" else None for x in blockHistory]
-	dinexPrices = [x.price if x.blockOrDinex == "Dinex" else None for x in blockHistory]
+	blockPrices = [x.price for x in blockHistory]
 	date_chart = pygal.Line(x_label_rotation=20,style = TurquoiseStyle,x_title = "Time Sold",
 		y_title = "Price per Block",height = 400)
 	date_chart.x_labels = map(lambda d: d.strftime('%Y-%m-%d %H:%M'), blockHistoryTimes)
 	date_chart.add("Blocks",blockPrices)
-	secondaryExists = False
-	for x in dinexPrices:
-		if x != None:
-			secondaryExists = True
-	if secondaryExists:
-		date_chart.add("Dinex",dinexPrices, secondary = True)
-	date_chart.render()
-	return render_template('pricehistory.html',price_chart = date_chart)
+
+	dinexHistory = getPastTransactions("Dinex")
+	dinexHistoryTimes = [x.timestamp for x in dinexHistory]
+	dinexPrices = [x.price for x in dinexHistory]
+	date_chart_dinex = pygal.Line(x_label_rotation=20,style = TurquoiseStyle,x_title = "Time Sold",
+		y_title = "Price per Dinex",height = 400)
+	date_chart_dinex.x_labels = map(lambda d: d.strftime('%Y-%m-%d %H:%M'), dinexHistoryTimes)
+	date_chart_dinex.add("Dinex",dinexPrices)
+	return render_template('pricehistory.html',price_chart = date_chart, price_chart2 = date_chart_dinex)
 
 def update(stringSet, change):
 	setting = list(stringSet)
