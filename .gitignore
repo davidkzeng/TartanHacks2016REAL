@@ -2,5 +2,5 @@ app/__init__.pyc
 app/forms.pyc
 app/models.pyc
 app/views.pyc
-/*.pyc
-/*.db
+db_repository/*
+app.db
